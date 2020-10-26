@@ -1,0 +1,31 @@
+# src: https://github.com/clipos/src_platform_config-linux-hardware/blob/master/kernel_config/security/basic
+
+# Need the auditing infrastructure (AppArmor,SELinux)
+CONFIG_AUDIT=y
+
+CONFIG_SHUFFLE_PAGE_ALLOCATOR=y
+
+CONFIG_GCC_PLUGIN_STACKLEAK=y
+CONFIG_STACKLEAK_TRACK_MIN_SIZE=100
+
+CONFIG_INIT_ON_FREE_DEFAULT_ON=y
+CONFIG_INIT_ON_ALLOC_DEFAULT_ON=y
+
+# Enable sanity checks in virtual to page code.
+CONFIG_DEBUG_VIRTUAL=y
+
+CONFIG_KEYS=y
+# ! TEST ! persistent_keyrings=n , big_keys=n , encrypted_keys=n , key_dh=n
+CONFIG_PERSISTENT_KEYRINGS=y
+CONFIG_BIG_KEYS=y
+CONFIG_ENCRYPTED_KEYS=y
+CONFIG_KEY_DH_OPERATIONS=y
+
+# Without this, the kernel can be tricked into calling an attacker-controlled binary
+CONFIG_STATIC_USERMODEHELPER=y
+CONFIG_STATIC_USERMODEHELPER_PATH=""
+
+CONFIG_SECURITY_LOCKDOWN_LSM=y
+CONFIG_SECURITY_LOCKDOWN_LSM_EARLY=y
+CONFIG_LOCK_DOWN_KERNEL_FORCE_CONFIDENTIALITY=y
+CONFIG_LSM="yama"

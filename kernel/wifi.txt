@@ -1,0 +1,44 @@
+CONFIG_NET=y
+CONFIG_CFG80211=m
+CONFIG_MAC80211=y
+CONFIG_MAC80211_RC_MINSTREL=y
+CONFIG_MAC80211_RC_DEFAULT_MINSTREL=y
+
+# Disable powersave, useless when you use wifi all times
+CONFIG_CFG80211_DEFAULT_PS=n
+CONFIG_MAC80211_LEDS=y
+# Support old wireless-tools and iwconfig
+CONFIG_CFG80211_WEXT=y
+
+# Support for net-wireless/iwd
+CONFIG_CRYPTO=y
+CONFIG_CRYPTO_ARC4=y
+CONFIG_CRYPTO_MD4=y
+CONFIG_CRYPTO_AES_NI_INTEL=y
+CONFIG_CRYPTO_DES3_EDE_X86_64=y
+CONFIG_PKCS8_PRIVATE_KEY_PARSER=y
+
+############################################################
+# Device, try enable as [M]odule when possible
+
+# Enable Broadcom devices
+CONFIG_WLAN_VENDOR_BROADCOM=y
+CONFIG_B43=m
+CONFIG_B43_PHY_N=y
+CONFIG_B43_PHY_LP=y
+CONFIG_B43_PHY_HT=y
+# Enable Ralink devices
+CONFIG_WLAN_VENDOR_RALINK=y
+CONFIG_RT2X00=m
+CONFIG_RT2800USB=m
+# intel devices
+CONFIG_WLAN_VENDOR_INTEL=y
+CONFIG_IWLWIFI=m
+CONFIG_IWLDVM=m
+CONFIG_IWLMVM=m
+
+############################################################
+# Device, LED Support
+
+CONFIG_NEW_LEDS=y
+CONFIG_LEDS_CLASS=y

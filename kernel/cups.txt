@@ -1,0 +1,2 @@
+# disable usb_printer, cups should be install with use flag +usb
+CONFIG_USB_PRINTER=n

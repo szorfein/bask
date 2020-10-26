@@ -1,0 +1,79 @@
+#!/usr/bin/env sh
+
+set -o nounset -o errexit
+
+# colors
+red=$'\e[0;91m'
+cyan=$'\e[0;96m'
+white=$'\e[0;97m'
+endc=$'\e[0m'
+
+die() {
+  printf "${red}%s${white}%s${endc}\n" "[-]" " $1"
+  exit 1
+}
+
+log() {
+  printf "$cyan%s$white%s$endc\n" "[+]" " $1"
+}
+
+check_root() {
+  if [ "$(id -u)" -ne 0 ] ; then
+    echo
+    die "Please run this program as a root !"
+  fi
+}
+
+#######################################################
+# Backup
+
+cpy() {
+  src="$1"
+  dest="$2"
+  if [[ -f $src ]] || [[ -d $src ]] ; then
+    echo "[+] cp -a $src $dest"
+    cp -a "$src" "$dest"
+  fi
+}
+
+backup_file() {
+  backup_list="$1" 
+  for f in $backup_list ; do
+    if [ -f "$f" ] ; then
+      [ -f "$f-BAK" ] || cpy "$f" "$f"-BAK
+    fi
+  done
+}
+
+restoreFiles() {
+  backup_list="$1" 
+  for f in $backup_list ; do
+    [ -f "$f"-BAK ] && cpy "$f"-BAK "$f"
+  done
+}
+
+checkBins() {
+  for i in $@ ; do
+    if ! hash "$i" &>/dev/null; then
+      die "$i is no found"
+    fi
+  done
+}
+
+# args: 1 - command name , 2 - package name
+# ex usage: checkBins_and_install ssh openssh
+checkbins_and_install() {
+  if ! hash $1 &>/dev/null; then
+    sudo emerge -av "$2"
+  else
+    echo "$2 is installed..."
+  fi
+}
+
+# args: 1 - base line , 2 - changed line , 3 - file
+# ex usage: apply_sed "$rule_on" "$rule_off" "/usr/src/linux/.config"
+apply_sed() {
+  if grep -q "$1" "$3" ; then
+    sed -i "s:$1:$2:" "$3"
+  fi
+}

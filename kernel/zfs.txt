@@ -1,0 +1,10 @@
+CONFIG_CRYPTO_DEFLATE=y
+CONFIG_ZLIB_DEFLATE=y
+CONFIG_KALLSYMS=y
+
+###############################################
+# Disable problematic module
+
+# No work with the version of =zfs-0.7.5 =zfs-0.7.9
+# https://wiki.gentoo.org/wiki/ZFS
+CONFIG_GCC_PLUGIN_RANDSTRUCT=n
