@@ -82,12 +82,11 @@ apply_conf() {
   done
 }
 
-# Specific to intel
-forIntel() {
-  cpu=$(lscpu | grep -i intel | head -1)
-  [ -z "$cpu" ] && return
-  log "Add intel features." 
-  apply_conf "$FEATS"/auto/intel.txt
+for_intel() {
+  if cat /proc/cpuinfo | grep -qi intel ; then
+    log "Add intel features." 
+    apply_conf "$FEATS"/auto/intel.txt
+  fi
 }
 
 for_X86_64() {
@@ -113,6 +112,7 @@ apply_base() {
   apply_conf "$FEATS"/auto/secs.txt
   apply_conf "$FEATS"/auto/kspp.txt
   for_X86_64
+  for_intel
   uefi
 }
 

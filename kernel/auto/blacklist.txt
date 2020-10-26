@@ -59,7 +59,7 @@ CONFIG_LEGACY_PTYS=n
 # The /dev/port device should not be used anymore by userspace, and it could increase the kernel attack surface.
 CONFIG_DEVPORT=n
 
-CONFIG_RANDOM_TRUST_BOOTLOADER=y
+CONFIG_RANDOM_TRUST_BOOTLOADER=n
 CONFIG_RANDOM_TRUST_CPU=n
 
 # Enabling this would provide an attacker with precious information on the running kernel.
