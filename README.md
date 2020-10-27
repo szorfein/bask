@@ -18,6 +18,6 @@ Add support for `docker` and `iptables`:
 
 Default kernel use `/usr/src/linux`, you can use a different with `-k KERNEL`:
 
-   # ./bask -b -k /usr/src/linux-5.6
+    # ./bask -b -k /usr/src/linux-5.6
 
 When `bask` finish, just compile your kernel as usually.
