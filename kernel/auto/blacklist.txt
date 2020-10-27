@@ -6,7 +6,8 @@ CONFIG_IKCONFIG=n
 # Symbols are only useful for debug and attack purposes.
 CONFIG_KALLSYMS=n
 
-CONFIG_USER_NS=n
+# Required by docker
+#CONFIG_USER_NS=n
 
 # Merging SLAB caches can make heap exploitation easier.
 CONFIG_SLAB_MERGE_DEFAULT=n

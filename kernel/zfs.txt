@@ -1,6 +1,5 @@
 CONFIG_CRYPTO_DEFLATE=y
 CONFIG_ZLIB_DEFLATE=y
-CONFIG_KALLSYMS=y
 
 ###############################################
 # Disable problematic module

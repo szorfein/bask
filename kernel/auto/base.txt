@@ -1,5 +1,6 @@
 # src: https://github.com/clipos/src_platform_config-linux-hardware/blob/master/kernel_config/basic
 
+CONFIG_NET=y
 CONFIG_SWAP=y
 CONFIG_SYSVIPC=y
 CONFIG_POSIX_MQUEUE=y
@@ -148,7 +149,7 @@ CONFIG_INPUT_KEYBOARD=y
 CONFIG_INPUT_MOUSE=y
 
 CONFIG_TTY=y
-CONFIG_VT=y
+#CONFIG_VT=y
 CONFIG_CONSOLE_TRANSLATIONS=y
 CONFIG_VT_CONSOLE=y
 CONFIG_UNIX98_PTYS=y

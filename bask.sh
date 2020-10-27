@@ -109,8 +109,10 @@ apply_base() {
   apply_conf "$FEATS"/auto/base.txt
   apply_conf "$FEATS"/auto/blacklist.txt
   apply_conf "$FEATS"/auto/net.txt
+  apply_conf "$FEATS"/auto/netfilter.txt
   apply_conf "$FEATS"/auto/secs.txt
   apply_conf "$FEATS"/auto/kspp.txt
+  apply_conf "$FEATS"/auto/kconfig.txt
   for_X86_64
   for_intel
   uefi
@@ -129,22 +131,21 @@ applyGrubCmdArgs() {
   fi
 
   log "Check kernel boot params..."
-  for opt in $(grep -ie "^[a-z]" $FEATS/grub.txt) ; do
-    if_here=$(echo $line | grep -i $opt)
-    if [[ -z $if_here ]] ; then
+  for opt in $(grep -ie "^[a-z]" "$FEATS"/grub.txt) ; do
+    if is_here=$(echo "$line" | grep -i "$opt") ; then
       log "Option lacked, apply additional value '$opt'"
-      only_args+=" $opt"
+      only_args="$only_args $opt"
     fi
   done
 
-  only_args="GRUB_CMDLINE_LINUX=\"$(echo $only_args | sed "s:\"::g")\""
+  only_args="GRUB_CMDLINE_LINUX=\"$(echo "$only_args" | sed "s:\"::g")\""
   log "Your line cmdline is $only_args"
 
   sed -i "s:$line:$only_args:g" "$grub_conf"
 }
 
 forTheEnd() {
-  log "File(s) ${FILE[@]} has been applying"
+  log "File(s) $FILE has been applying"
   echo "You should probably in order: "
   echo -e "\n[re]compile your kernel source:"
   echo "ex -> make && make modules_install && make install"
@@ -166,7 +167,7 @@ usage() {
 
 while getopts ":a:k:bvh" args ; do
   case "$args" in
-    a ) FILE+=("$OPTARG") ;;
+    a ) FILE="$OPTARG" ;;
     b ) BASE=true ;;
     k ) KERNEL="$OPTARG" ;;
     v | h ) usage 1 ;;
@@ -177,7 +178,7 @@ shift $(( $OPTIND - 1 ))
 
 # Check arg
 check_txt() {
-  for f in ${FILE[@]} ; do
+  for f in ${FILE:-} ; do
     [ -f "$FEATS"/"$f".txt ] || die "Config $f.txt not yet available in $FEATS"
   done
 }
@@ -198,7 +199,7 @@ main() {
 
   log "Patching kernel source located at $KERNEL"
   backup_file "$KERNEL/.config"
-  cd "$KERNEL"
+  cd "$KERNEL" || die "$KERNEL no found"
 
   # Check if .config exist or generate a new
   if ! [ -f "$SOURCE_CONF" ] ; then 
@@ -209,10 +210,10 @@ main() {
   "$BASE" && apply_base
 
   # Kernel options to check
-  for f in ${FILE[@]} ; do
+  for f in ${FILE:-} ; do
     log "Applying $f"
     apply_conf "$FEATS"/"$f".txt
-    if [ "$f" == "grub" ] ; then
+    if [ "$f" = "grub" ] ; then
       applyGrubCmdArgs
     fi
   done

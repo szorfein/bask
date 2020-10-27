@@ -1,0 +1,12 @@
+# See: https://github.com/clipos/src_platform_config-linux-hardware/blob/master/kernel_config/net/netfilter
+CONFIG_NETFILTER=y
+CONFIG_NETFILTER_ADVANCED=y
+
+CONFIG_NF_CONNTRACK=y
+CONFIG_NF_LOG_IPV4=y
+
+CONFIG_NF_TABLES=y
+CONFIG_NFT_CT=y
+CONFIG_NFT_LOG=y
+CONFIG_NFT_REJECT=y
+CONFIG_NF_TABLES_IPV4=y
