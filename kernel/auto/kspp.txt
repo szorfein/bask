@@ -77,8 +77,8 @@ CONFIG_MODULE_SIG=y
 CONFIG_MODULE_SIG_FORCE=y
 CONFIG_MODULE_SIG_ALL=y
 CONFIG_MODULE_SIG_SHA512=y
-#CONFIG_MODULE_SIG_HASH="sha512"
-#CONFIG_MODULE_SIG_KEY="certs/signing_key.pem"
+CONFIG_MODULE_SIG_HASH="sha512"
+CONFIG_MODULE_SIG_KEY="certs/signing_key.pem"
 
 #########################################################
 # GCC
@@ -104,25 +104,6 @@ CONFIG_GCC_PLUGIN_RANDSTRUCT=n
 # Enable Kernel Page Table Isolation to remove an entire class of cache timing side-channels.
 CONFIG_PAGE_TABLE_ISOLATION=y
 
-#########################################################
-# Clip OS part
-
-# If disable, docker container and few others tools will not work :(
-CONFIG_USER_NS=y
-
-# Use maximum number of randomized bits for the mmap base address on x86_64. 
-CONFIG_ARCH_MMAP_RND_BITS=32
-
-#########################################################
-# Processor type and features
-
-# Needed to benefit from microcode updates and thus security fixes
-CONFIG_MICROCODE=y
-
-# Enable Supervisor Mode Access Prevention to prevent ret2usr exploitation techniques. 
-CONFIG_X86_SMAP=y
-
-# Deprecated in GCC 8 and will probably be dropped in GCC 9.
 CONFIG_X86_INTEL_MPX=n
 
 # Memory Protection Keys are a promising feature but they are still not supported on current hardware.

@@ -75,8 +75,8 @@ check_option() {
     printf "${cyan}%s${white}%s${endc}\n" "[OK]" " $1"
   elif [ "$q" = "n" ] && grep -qi "^# $clean is not set" "$SOURCE_CONF" ; then
     printf "${cyan}%s${white}%s${endc}\n" "[OK]" " $1"
-  elif ! grep -qi "$clean" "$SOURCE_CONF" ; then
-    printf "${red}%s${endc}\n" "Option $s no found..."
+  elif ! grep -qi "$clean[^_]" "$SOURCE_CONF" ; then
+    printf "${red}%s${endc}\n" "Option $clean no found..."
   else
     apply_rules "$1"
   fi
@@ -112,13 +112,14 @@ uefi() {
 }
 
 apply_base() {
+  apply_conf "$FEATS"/auto/init.txt
   log "Apply base settings."
   apply_conf "$FEATS"/auto/base.txt
+  apply_conf "$FEATS"/net/basic.txt
   POLICY="no"
   apply_conf "$FEATS"/auto/blacklist.txt
   apply_conf "$FEATS"/auto/kconfig.txt
   POLICY="default"
-  apply_conf "$FEATS"/auto/net.txt
   apply_conf "$FEATS"/auto/netfilter.txt
   apply_conf "$FEATS"/auto/secs.txt
   apply_conf "$FEATS"/auto/kspp.txt
