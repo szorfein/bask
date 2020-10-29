@@ -1,5 +1,7 @@
-CONFIG_FB=n
-CONFIG_VT=n
+# Need CONFIG_VT to be able to login via tty for next reboot...
+CONFIG_FB=y
+#CONFIG_VT=y
+
 CONFIG_SECURITY_WRITABLE_HOOKS=n
 #CONFIG_BPF_SYSCALL=n
 

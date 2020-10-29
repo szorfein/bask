@@ -1,148 +1,82 @@
-# src: https://github.com/clipos/src_platform_config-linux-hardware/blob/master/kernel_config/blacklist
-
-# We do not need .config to be available at runtime.
 CONFIG_IKCONFIG=n
-
-# Symbols are only useful for debug and attack purposes.
+CONFIG_IKHEADERS=n
 CONFIG_KALLSYMS=n
-
-# Required by docker
-#CONFIG_USER_NS=n
-
-# Merging SLAB caches can make heap exploitation easier.
 CONFIG_SLAB_MERGE_DEFAULT=n
-
-# Dangerous; enabling this disables brk ASLR.
 CONFIG_COMPAT_BRK=n
-
-# Do not weaken the structure randomization
 CONFIG_GCC_PLUGIN_RANDSTRUCT_PERFORMANCE=n
-
 CONFIG_LEGACY_VSYSCALL_EMULATE=n
 CONFIG_LEGACY_VSYSCALL_XONLY=n
 CONFIG_X86_VSYSCALL_EMULATION=n
-
-# Related to MICROCODE, enabling those features would only present userspace with more attack surface.
+CONFIG_X86_IOPL_IOPERM=n
 CONFIG_X86_MSR=n
 CONFIG_X86_CPUID=n
-
-# Enabling this feature can make cache side-channel attacks such as FLUSH+RELOAD much easier to carry out.
 CONFIG_KSM=n
-
-# Dangerous; enabling this allows replacement of running kernel.
 CONFIG_KEXEC=n
 CONFIG_KEXEC_FILE=n
-
-# A crash dump can potentially provide an attacker with useful information.
 CONFIG_CRASH_DUMP=n
-
-# This is not supposed to be needed by userspace applications and only increases the kernel attack surface.
 CONFIG_MODIFY_LDT_SYSCALL=n
-
-# Dangerous; enabling this allows replacement of running kernel.
 CONFIG_HIBERNATION=n
-
-# Easily confused by misconfigured userspace, keep off.
 CONFIG_BINFMT_MISC=n
-
-# Core dumps can provide an attacker with useful information.
 CONFIG_COREDUMP=n
-
-# Do not allow direct physical memory access (but if you must have it, at least enable STRICT mode...)
 CONFIG_DEVMEM=n
-
-# Dangerous; enabling this allows direct kernel memory writing.
 CONFIG_DEVKMEM=n
-
-# Use the modern PTY interface (devpts) only.
 CONFIG_LEGACY_PTYS=n
-
-# The /dev/port device should not be used anymore by userspace, and it could increase the kernel attack surface.
 CONFIG_DEVPORT=n
-
 CONFIG_RANDOM_TRUST_BOOTLOADER=n
 CONFIG_RANDOM_TRUST_CPU=n
-
-# Enabling this would provide an attacker with precious information on the running kernel.
 CONFIG_PROC_KCORE=n
-
-# This should only be needed for debugging.
 CONFIG_MAGIC_SYSRQ=n
-
-# The debugfs virtual file system is only useful for debugging and protecting it would require additional work.
 CONFIG_DEBUG_FS=n
-
-# Using the slub_debug command line parameter provides more fine grained control.
 CONFIG_SLUB_DEBUG_ON=n
-
 CONFIG_HARDENED_USERCOPY_FALLBACK=n
-
+CONFIG_SECURITY_SELINUX_BOOTPARAM=n
+CONFIG_SECURITY_SELINUX_DISABLE=n
 CONFIG_LOCK_DOWN_KERNEL_FORCE_NONE=n
 CONFIG_LOCK_DOWN_KERNEL_FORCE_INTEGRITY=n
-
-# Dangerous; enabling this allows direct physical memory writing.
 CONFIG_ACPI_CUSTOM_METHOD=n
 CONFIG_ACPI_TABLE_UPGRADE=n
 CONFIG_ACPI_WMI=n
-
-# Dangerous; enabling this disables VDSO ASLR.
 CONFIG_COMPAT_VDSO=n
-
-# Remove additional attack surface, unless you really need them.
-#CONFIG_IA32_EMULATION=n
 CONFIG_X86_X32=n
 CONFIG_PTDUMP_DEBUGFS=n
 CONFIG_ZSMALLOC_STAT=n
 CONFIG_PAGE_OWNER=n
 CONFIG_DEBUG_KMEMLEAK=n
-
 CONFIG_KPROBES=n
 CONFIG_UPROBES=n
 CONFIG_GENERIC_TRACER=n
 CONFIG_PROC_VMCORE=n
 CONFIG_HWPOISON_INJECT=n
 CONFIG_PROC_PAGE_MONITOR=n
-
 CONFIG_USELIB=n
 CONFIG_CHECKPOINT_RESTORE=n
-
-# The userfaultfd() system call adds attack surface
 CONFIG_USERFAULTFD=n
 CONFIG_MEM_SOFT_DIRTY=n
-
 CONFIG_LIVEPATCH=n
-
 CONFIG_IP_DCCP=n
 CONFIG_IP_SCTP=n
-
 CONFIG_FTRACE=n
 CONFIG_PROFILING=n
-
 CONFIG_NOTIFIER_ERROR_INJECTION=n
+CONFIG_EFI_VARS=n
+CONFIG_EFI_CUSTOM_SSDT_OVERLAYS=n
 CONFIG_DRM_FBDEV_LEAK_PHYS_SMEM=n
 CONFIG_DRM_LEGACY=n
-
 CONFIG_UEVENT_HELPER=n
 CONFIG_UEVENT_HELPER_PATH=""
-
 CONFIG_PCI_P2PDMA=n
 CONFIG_LDISC_AUTOLOAD=n
-
 CONFIG_NOUVEAU_LEGACY_CTX_SUPPORT=n
-
 CONFIG_INET_AH=n
 CONFIG_INET6_AH=n
-
 CONFIG_INET_ESP_OFFLOAD=n
 CONFIG_INET6_ESP_OFFLOAD=n
-
 CONFIG_INET_IPCOMP=n
 CONFIG_INET6_IPCOMP=n
-
 CONFIG_AIO=n
 CONFIG_IO_URING=n
 CONFIG_STAGING=n
-#CONFIG_VHOST=n
-#CONFIG_VHOST_MENU=n
+CONFIG_VHOST=n
+CONFIG_VHOST_MENU=n
 CONFIG_TCP_SIMULT_CONNECT_DEFAULT_ON=n
 CONFIG_MEMORY_HOTPLUG=n

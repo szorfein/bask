@@ -1,0 +1,11 @@
+# See https://github.com/clipos/src_platform_config-linux-hardware/blob/master/kernel_config/graphics
+CONFIG_DRM=y
+
+CONFIG_DRM_FBDEV_EMULATION=y
+CONFIG_FRAMEBUFFER_CONSOLE=y
+CONFIG_FRAMEBUFFER_CONSOLE_DEFERRED_TAKEOVER=y
+CONFIG_FIRMWARE_EDID=y
+
+CONFIG_DRM_I915=m
+CONFIG_DRM_I915_USERPTR=y
+CONFIG_DRM_QXL=m

@@ -10,6 +10,7 @@ FUNCS="$DIR"/src/functions
 FEATS="$DIR"/kernel
 BASE=false
 KERNEL=/usr/src/linux
+POLICY="default"
 
 # colors
 red=$'\e[0;91m'
@@ -19,30 +20,32 @@ white=$'\e[0;97m'
 endc=$'\e[0m'
 
 # update config after apply a rule
-updConf() {
+upd_conf() {
   printf "\n$magenta%s$white%s$endc\n" " ===>" " Update kernel config..."
-  make olddefconfig >/dev/null || die "update conf failed"
+  if [ "$POLICY" = "default" ] ; then
+    make olddefconfig >/dev/null || die "update conf failed"
+  fi
   # To debug, when see a warning, we can apply:
   #make oldconfig
 }
 
-# Return the regex for the sed command from applyRule()
-retRule() {
+# Return the regex for the sed command from apply_rule()
+ret_rule() {
   s=$1
   clean=${s%%=*}
   q=${s#*=}
-  if_comma=$(echo $s | sed "s:,: :g")
+  if_comma=$(echo "$s" | sed "s:,: :g")
   # First try to find for example CONFIG_CMDLINE=
-  old="$(grep -ie "$clean=" $SOURCE_CONF | head -n 1)"
+  old="$(grep -ie "$clean=" "$SOURCE_CONF" | head -1)"
   # If fail, grab the full line, ex: # CONFIG_CMDLINE_BOOL is not set
-  [ -z "$old" ] && old="$(grep -ie "$clean is not set$" $SOURCE_CONF | head -n 1)"
+  [ -z "$old" ] && old="$(grep -ie "$clean is not set$" "$SOURCE_CONF" | head -1)"
   # And if nothing is found, exit
   [ -z "$old" ] && return
-  if [ "$q" == "n" ]; then
+  if [ "$q" = "n" ]; then
     rule="s:${old}:${clean}=n:g"
-  elif [ "$q" == "y" ] ; then
+  elif [ "$q" = "y" ] ; then
     rule="s:${old}:${clean}=y:g"
-  elif [ "$q" == "m" ] ; then
+  elif [ "$q" = "m" ] ; then
     rule="s:${old}:${clean}=m:g"
   else
     rule="s:${old}:${if_comma}:g"
@@ -50,17 +53,21 @@ retRule() {
   echo "$rule"
 }
 
-applyRules() {
+apply_rules() {
   s="$1"
-  rule=$(retRule "$s")
+  rule=$(ret_rule "$s")
   [ -z "$rule" ] && die "rule void - $s"
   sed -i "$rule" "$SOURCE_CONF" || die "sed $rule on $s"
   printf "${cyan}%s${white}%s${endc}" \
     "[OK]" " new rule apply $rule"
-  updConf
+  if [ "$q" = "y" ] || [ "$q" = "m" ] ; then
+    upd_conf
+  else
+    echo
+  fi
 }
 
-chkOption() {
+check_option() {
   s="$1"
   clean=${s%%=*}
   q=${s#*=}
@@ -71,14 +78,14 @@ chkOption() {
   elif ! grep -qi "$clean" "$SOURCE_CONF" ; then
     printf "${red}%s${endc}\n" "Option $s no found..."
   else
-    applyRules "$1"
+    apply_rules "$1"
   fi
 }
 
 apply_conf() {
   [ -f "$1" ] || die "apply_conf <$1> no found."
   for config in $(grep -ie "^config" $1) ; do
-    chkOption "$config"
+    check_option "$config"
   done
 }
 
@@ -107,12 +114,15 @@ uefi() {
 apply_base() {
   log "Apply base settings."
   apply_conf "$FEATS"/auto/base.txt
+  POLICY="no"
   apply_conf "$FEATS"/auto/blacklist.txt
+  apply_conf "$FEATS"/auto/kconfig.txt
+  POLICY="default"
   apply_conf "$FEATS"/auto/net.txt
   apply_conf "$FEATS"/auto/netfilter.txt
   apply_conf "$FEATS"/auto/secs.txt
   apply_conf "$FEATS"/auto/kspp.txt
-  apply_conf "$FEATS"/auto/kconfig.txt
+  apply_conf "$FEATS"/auto/graphics.txt
   for_X86_64
   for_intel
   uefi
@@ -147,13 +157,13 @@ applyGrubCmdArgs() {
 forTheEnd() {
   log "File(s) $FILE has been applying"
   echo "You should probably in order: "
-  echo -e "\n[re]compile your kernel source:"
+  printf "\n[re]compile your kernel source:"
   echo "ex -> make && make modules_install && make install"
-  echo -e "\n[re]install your modules if gentoo:"
+  printf "\n[re]install your modules if gentoo:"
   echo "ex -> emerge --ask @module-rebuild"
-  echo -e "\n[re]make your initramfs"
+  printf "\n[re]make your initramfs"
 
-  echo -e "\n[re]do a grub.conf:"
+  printf "\n[re]do a grub.conf:"
   echo "ex -> grub-mkconfig -o /boot/grub/grub.cfg"
 }
 

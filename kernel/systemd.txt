@@ -3,9 +3,6 @@
 # udev will fail to work with the legacy sysfs layout
 CONFIG_SYSFS_DEPRECATED=n
 
-# Legacy hotplug slows down the system and confuses udev
-CONFIG_UEVENT_HELPER_PATH=""
-
 # Userspace firmware loading is not supported and should be disabled in the kernel
 CONFIG_FW_LOADER_USER_HELPER=n
 
