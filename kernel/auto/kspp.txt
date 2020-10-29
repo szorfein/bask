@@ -4,49 +4,15 @@
 # Base 
 
 # Make sure kernel page tables have safe permissions.
-CONFIG_DEBUG_KERNEL=y
-#CONFIG_DEBUG_RODATA=y
+CONFIG_DEBUG_RODATA=y
 CONFIG_DEBUG_RODATA_TEST=y
-CONFIG_STRICT_KERNEL_RWX=y
-CONFIG_STRICT_MODULE_RWX=y
 
-# Report any dangerous memory permissions (not available on all archs).
-CONFIG_DEBUG_WX=y
-
-# Use -fstack-protector-strong (gcc 4.9+) for best stack canary coverage.
-# Prior to v4.18, these are:
-CONFIG_STACKPROTECTOR=y
-CONFIG_STACKPROTECTOR_STRONG=y
-
-# CONFIG_STRICT_DEVMEM=y
-# CONFIG_IO_STRICT_DEVMEM=y
-
-# Perform additional validation of various commonly targeted structures.
-CONFIG_DEBUG_CREDENTIALS=y
-CONFIG_DEBUG_NOTIFIERS=y
-CONFIG_DEBUG_LIST=y
-CONFIG_DEBUG_SG=y
-CONFIG_BUG_ON_DATA_CORRUPTION=y
-CONFIG_SCHED_STACK_END_CHECK=y
-
-# Provide userspace with seccomp BPF API for syscall attack surface reduction.
-CONFIG_SECCOMP=y
-CONFIG_SECCOMP_FILTER=y
-
-# Provide userspace with ptrace ancestry protections.
-CONFIG_SECURITY=y
-CONFIG_SECURITY_YAMA=y
+CONFIG_STRICT_DEVMEM=y
+CONFIG_IO_STRICT_DEVMEM=y
 
 # Perform usercopy bounds checking. (And disable fallback to gain full whitelist enforcement.)
 CONFIG_HARDENED_USERCOPY=y
-CONFIG_HARDENED_USERCOPY_FALLBACK=n
-
-# Randomize allocator freelists, harden metadata.
-CONFIG_SLAB_FREELIST_RANDOM=y
-CONFIG_SLAB_FREELIST_HARDENED=y
-
-# Allow allocator validation checking to be enabled (see "slub_debug=P" below).
-CONFIG_SLUB_DEBUG=y
+CONFIG_HARDENED_USERCOPY_PAGESPAN=n
 
 # Wipe higher-level memory allocations when they are freed (needs "page_poison=1" command line below).
 # (If you can afford even more performance penalty, leave
@@ -54,40 +20,15 @@ CONFIG_PAGE_POISONING=y
 CONFIG_PAGE_POISONING_NO_SANITY=y
 CONFIG_PAGE_POISONING_ZERO=y
 
-# Adds guard pages to kernel stacks (not all architectures support this yet).
-CONFIG_VMAP_STACK=y
-
 # Perform extensive checks on reference counting.
 CONFIG_HAS_IOMEM=y
 CONFIG_REFCOUNT_FULL=y
 
-# Check for memory copies that might overflow a structure in str*() and mem*() functions both at build-time and run-time.
-CONFIG_FORTIFY_SOURCE=y
-
 # Prior to v4.1, assists heap memory attacks; best to keep interface disabled.
 CONFIG_INET_DIAG=n
 
-# Reboot devices immediately if kernel experiences an Oops.
-CONFIG_PANIC_ON_OOPS=y
-CONFIG_PANIC_TIMEOUT=-1
-
-# https://wiki.gentoo.org/wiki/Signed_kernel_module_support
-# But if CONFIG_MODULE=y is needed, at least they must be signed with a per-build key.
-CONFIG_MODULE_SIG=y
-CONFIG_MODULE_SIG_FORCE=y
-CONFIG_MODULE_SIG_ALL=y
-CONFIG_MODULE_SIG_SHA512=y
-CONFIG_MODULE_SIG_HASH="sha512"
-CONFIG_MODULE_SIG_KEY="certs/signing_key.pem"
-
 #########################################################
 # GCC
-
-# Enable GCC Plugins
-CONFIG_GCC_PLUGINS=y
-
-# Gather additional entropy at boot time for systems that may not have appropriate entropy sources.
-CONFIG_GCC_PLUGIN_LATENT_ENTROPY=y
 
 # Force all structures to be initialized before they are passed to other functions.
 #CONFIG_GCC_PLUGIN_STRUCTLEAK=y
@@ -101,9 +42,6 @@ CONFIG_GCC_PLUGIN_RANDSTRUCT=n
 #########################################################
 # X86_64
 
-# Enable Kernel Page Table Isolation to remove an entire class of cache timing side-channels.
-CONFIG_PAGE_TABLE_ISOLATION=y
-
 CONFIG_X86_INTEL_MPX=n
 
 # Memory Protection Keys are a promising feature but they are still not supported on current hardware.
@@ -114,12 +52,4 @@ CONFIG_X86_INTEL_MEMORY_PROTECTION_KEYS=n
 
 # Ensure Boot integrity
 CONFIG_TCG_TPM=y
-
-#########################################################
-# Security
-
-# Prevent unprivileged users from gathering information from the kernel log buffer via dmesg(8).
-CONFIG_SECURITY_DMESG_RESTRICT=y
-
-# Not sure here...
-# CONFIG_INTEL_TXT=n
+CONFIG_TCG_TIS=y
