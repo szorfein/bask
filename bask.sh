@@ -105,10 +105,10 @@ for_X86_64() {
 
 uefi() {
   apply_conf "$FEATS"/auto/gpt.txt
-  [ -d /sys/firmware/efi/efivars ] && {
+  if [ -d /sys/firmware/efi/efivars ] ; then
     log "Add content for UEFI"
     apply_conf "$FEATS"/auto/uefi.txt
-  }
+  fi
 }
 
 apply_base() {
