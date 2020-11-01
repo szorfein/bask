@@ -124,6 +124,7 @@ apply_base() {
   apply_conf "$FEATS"/security/basic.txt
   apply_conf "$FEATS"/auto/kspp.txt
   apply_conf "$FEATS"/auto/graphics.txt
+  apply_conf "$FEATS"/boards.txt
   apply_conf "$FEATS"/debug.txt
   for_X86_64
   for_intel

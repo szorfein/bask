@@ -7,9 +7,6 @@
 CONFIG_DEBUG_RODATA=y
 CONFIG_DEBUG_RODATA_TEST=y
 
-CONFIG_STRICT_DEVMEM=y
-CONFIG_IO_STRICT_DEVMEM=y
-
 # Perform usercopy bounds checking. (And disable fallback to gain full whitelist enforcement.)
 CONFIG_HARDENED_USERCOPY=y
 CONFIG_HARDENED_USERCOPY_PAGESPAN=n
