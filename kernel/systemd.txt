@@ -9,24 +9,11 @@ CONFIG_FW_LOADER_USER_HELPER=n
 # ! TEST ! for systemd and few modules https://forums.gentoo.org/viewtopic-t-1001638.html
 CONFIG_FW_LOADER_USER_HELPER_FALLBACK=y
 
-# Some udev rules and virtualization detection relies on it
-CONFIG_DMIID=y
-
-# Support for some SCSI devices
-CONFIG_BLK_DEV_BSG=y
-
 # Required for PrivateNetwork and PrivateDevices
-CONFIG_NET_NS=y
 CONFIG_USER_NS=y
 
-CONFIG_GENTOO_LINUX_INIT_SYSTEMD=y
-CONFIG_GENTOO_LINUX=y
-CONFIG_GENTOO_LINUX_UDEV=y
 CONFIG_DEVPTS_MULTIPLE_INSTANCES=y
 CONFIG_IPV6=y
-CONFIG_TMPFS_XATTR=y
-CONFIG_TMPFS_POSIX_ACL=y
-CONFIG_EXT4_FS_POSIX_ACL=y
 
 # Required for CPUShares=
 CONFIG_CGROUP_SCHED=y
