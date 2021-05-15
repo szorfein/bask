@@ -1,5 +1,7 @@
 CONFIG_CRYPTO_DEFLATE=y
+
 CONFIG_ZLIB_DEFLATE=y
+CONFIG_ZLIB_INFLATE=y
 
 ###############################################
 # Disable problematic module

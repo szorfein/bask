@@ -92,14 +92,14 @@ apply_conf() {
 for_intel() {
   if cat /proc/cpuinfo | grep -qi intel ; then
     log "Add intel features." 
-    apply_conf "$FEATS"/auto/intel.txt
+    apply_conf "$FEATS"/cpu/intel.txt
   fi
 }
 
 for_X86_64() {
   if grep "^CONFIG_X86_64=y" "$SOURCE_CONF" ; then
     log "Add content for x86_64"
-    apply_conf "$FEATS"/auto/x86_64.txt
+    apply_conf "$FEATS"/cpu/x86_64.txt
   fi
 }
 
@@ -120,7 +120,8 @@ apply_base() {
   apply_conf "$FEATS"/auto/blacklist.txt
   apply_conf "$FEATS"/auto/kconfig.txt
   POLICY="default"
-  apply_conf "$FEATS"/auto/netfilter.txt
+  apply_conf "$FEATS"/net/netfilter.txt
+  apply_conf "$FEATS"/net/netfilter_gw.txt
   apply_conf "$FEATS"/security/basic.txt
   apply_conf "$FEATS"/auto/kspp.txt
   apply_conf "$FEATS"/auto/graphics.txt

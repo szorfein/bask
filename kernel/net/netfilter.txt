@@ -1,4 +1,3 @@
-# See: https://github.com/clipos/src_platform_config-linux-hardware/blob/master/kernel_config/net/netfilter
 CONFIG_NETFILTER=y
 CONFIG_NETFILTER_ADVANCED=y
 
