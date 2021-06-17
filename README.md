@@ -4,7 +4,7 @@ Build A Secure Kernel
 ## About
 This tool can help to build a Secure Kernel, following configurations found on:
 + [kspp](http://kernsec.org/wiki/index.php/Kernel_Self_Protection_Project/Recommended_Settings)
-+ [clipos](https://docs.clip-os.org/clipos/kernel.html#configuration)
++ [clipos](https://docs.clip-os.org/clipos/kernel.html#configuration) - [src](https://github.com/clipos/src_platform_config-linux-hardware)  
 + [kconfig-hardened](https://github.com/a13xp0p0v/kconfig-hardened-check)
 + [whonix](https://github.com/Whonix/hardened-kernel)
 

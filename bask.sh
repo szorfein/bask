@@ -9,8 +9,10 @@ FUNCS="$DIR"/src/functions
 
 FEATS="$DIR"/kernel
 BASE=false
+AUTO_SEARCH=false
 KERNEL=/usr/src/linux
 POLICY="default"
+MOD="/proc/modules"
 
 # colors
 red=$'\e[0;91m'
@@ -175,15 +177,19 @@ forTheEnd() {
 # Command line parser
 
 usage() {
-  printf "Usage: %s [-a \"value1 value2 value3\"] [-k kernel_source_dir]\\n" $0
+  echo "Usage:"
+  printf "%s [-a \"value1 value2 value3\"] [-k kernel_source_dir]\\n" $0
+  printf "%s -s, search module in /proc/modules and apply the matching file automatically\\n" $0
+  echo 
   exit 0
 }
 
-while getopts ":a:k:bvh" args ; do
+while getopts ":a:k:sbvh" args ; do
   case "$args" in
     a ) FILE="$OPTARG" ;;
     b ) BASE=true ;;
     k ) KERNEL="$OPTARG" ;;
+    s ) AUTO_SEARCH=true ;;
     v | h ) usage 1 ;;
     \? ) usage 2 ;;
   esac
@@ -203,8 +209,54 @@ check_kern() {
   fi
 }
 
+function check_mod {
+  if ! tmp=$(grep "^$1" "$MOD") ; then
+    return 1
+  else
+    _1=$(echo "$tmp" | awk '{print $1}')
+    _3=$(echo "$tmp" | awk '{print $3}')
+    _4=$(echo "$tmp" | awk '{print $4}')
+    second=${2:-false}
+    if [ "$second," == "$_4" ] ; then
+      #echo "With second arg, $2 - $_2"
+      return 0
+    else
+      if [ "$_3" -ge 1 ] ; then
+      #echo "$_1 , $_2"
+          return 0
+      else
+          return 1
+      fi
+    fi
+  fi
+}
+
+function add_support {
+  echo "[+] Adding $1"
+  apply_conf "$FEATS"/"$1".txt
+}
+
+# Detect more things on a distro like Archlinux.
+function auto_search {
+#	check_mod "radeon" && add_support "radeon"
+#	check_mod "nouveau" && add_support "nouveau"
+#	check_mod "mdio_devres" "r8169" && add_support "r8169"
+#	check_mod "mei_txe" && add_support "mei_txe"
+#	check_mod "kvm" "kvm_intel" && add_support "kvm intel"
+
+  check_mod "i915" && add_support "drivers/gpu/i915"
+  check_mod "amdgpu" && add_support "drivers/gpu/amdgpu"
+	check_mod "pwm_lpss" "pwm_lpss_platform," && add_support "drivers/pwm_lpss"
+	check_mod "iwlwifi" "iwlmvm" && add_support "drivers/net/wireless/iwlmvm"
+	check_mod "xhci_pci_renesas" "xhci_pci" && add_support "drivers/usb/xhci_pci_renesas"
+	check_mod "xhci_hcd" "xhci_pci" && add_support "drivers/usb/xhci_hcd"
+	check_mod "rtsx_pci" "rtsx_pci_sdmmc" && add_support "drivers/misc/rtsx_pci_sdmmc"
+	check_mod "intel_spi" "intel_spi_platform" && add_support "drivers/mtd/intel_spi"
+	check_mod "snd_hda_intel" && add_support "sound/hda_intel"
+	check_mod "snd_usb_audio" && add_support "sound/usb_audio"
+}
+
 SOURCE_CONF="$KERNEL/.config"
-BACKUP_FILES+=" $SOURCE_CONF"
 
 main() {
   check_root
@@ -231,6 +283,8 @@ main() {
       applyGrubCmdArgs
     fi
   done
+
+  "$AUTO_SEARCH" && auto_search
 
   exit 0
 }
