@@ -36,7 +36,7 @@ ret_rule() {
   s=$1
   clean=${s%%=*}
   q=${s#*=}
-  if_comma=$(echo "$s" | sed "s:,: :g")
+  if_comma=$(echo "$s" | sed "s:@: :g")
   # First try to find for example CONFIG_CMDLINE=
   old="$(grep -ie "$clean=" "$SOURCE_CONF" | head -1)"
   # If fail, grab the full line, ex: # CONFIG_CMDLINE_BOOL is not set

@@ -15,4 +15,4 @@ CONFIG_BLK_DEV_INITRD=y
 # CONFIG_INITRAMFS_SOURCE="/boot/initramfs"
 CONFIG_CMDLINE_BOOL=y
 # options apply by kernel.sh and avoid to fill the CMDLINE with this
-CONFIG_CMDLINE="iommu=force,spectre_v2=on,extra_latent_entropy,pti=on,spec_store_bypass_disable=seccomp,init_on_alloc=1,init_on_free=1,slub_debug=ZF,slab_nomerge,vsyscall=none"
+CONFIG_CMDLINE="iommu=force@spectre_v2=on@extra_latent_entropy@pti=on@spec_store_bypass_disable=seccomp@init_on_alloc=1@init_on_free=1@slub_debug=ZF@slab_nomerge@vsyscall=none"
