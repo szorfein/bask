@@ -258,12 +258,22 @@ function auto_search {
 	check_mod "intel_spi" "intel_spi_platform" && add_support "drivers/mtd/intel_spi"
 
   # mfd
-	check_mod "intel_pmc_bxt", "iTCO_wdt" && add_support "drivers/mfd/intel_pmc_bxt"
+	check_mod "intel_pmc_bxt" "iTCO_wdt" && add_support "drivers/mfd/intel_pmc_bxt"
 
   # Sound
 	check_mod "snd_hda_intel" && add_support "sound/hda_intel"
 	check_mod "snd_usb_audio" && add_support "sound/usb_audio"
-	check_mod "snd_hda_codec_generic", "snd_hda_codec_realtek" && add_support "sound/pci_realtek"
+	check_mod "snd_hda_codec_generic" "snd_hda_codec_realtek" && add_support "sound/pci_realtek"
+
+  # Powercap
+	check_mod "intel_rapl_common" "intel_rapl_msr" && add_support "drivers/powercap/intel_rapl"
+
+  # Platform
+	check_mod "i8042" "acer_wmi" && add_support "drivers/platform/acer_wmi"
+
+  # Misc
+	check_mod "mei_me" && add_support "drivers/misc/mei_me"
+
 }
 
 SOURCE_CONF="$KERNEL/.config"
