@@ -247,13 +247,23 @@ function auto_search {
   check_mod "i915" && add_support "drivers/gpu/i915"
   check_mod "amdgpu" && add_support "drivers/gpu/amdgpu"
 	check_mod "pwm_lpss" "pwm_lpss_platform," && add_support "drivers/pwm_lpss"
+
+  # Wifi
 	check_mod "iwlwifi" "iwlmvm" && add_support "drivers/net/wireless/iwlmvm"
+	check_mod "ath9k_common" "ath9k" && add_support "drivers/net/wireless/ath9k"
+
 	check_mod "xhci_pci_renesas" "xhci_pci" && add_support "drivers/usb/xhci_pci_renesas"
 	check_mod "xhci_hcd" "xhci_pci" && add_support "drivers/usb/xhci_hcd"
 	check_mod "rtsx_pci" "rtsx_pci_sdmmc" && add_support "drivers/misc/rtsx_pci_sdmmc"
 	check_mod "intel_spi" "intel_spi_platform" && add_support "drivers/mtd/intel_spi"
+
+  # mfd
+	check_mod "intel_pmc_bxt", "iTCO_wdt" && add_support "drivers/mfd/intel_pmc_bxt"
+
+  # Sound
 	check_mod "snd_hda_intel" && add_support "sound/hda_intel"
 	check_mod "snd_usb_audio" && add_support "sound/usb_audio"
+	check_mod "snd_hda_codec_generic", "snd_hda_codec_realtek" && add_support "sound/pci_realtek"
 }
 
 SOURCE_CONF="$KERNEL/.config"
