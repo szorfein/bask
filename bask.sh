@@ -271,6 +271,9 @@ function auto_search {
   # Platform
 	check_mod "i8042" "acer_wmi" && add_support "drivers/platform/acer_wmi"
 
+  # Virtio
+	check_mod "net_failover" "virtio_net" && add_support "drivers/net/virtio"
+
   # Misc
 	check_mod "mei_me" && add_support "drivers/misc/mei_me"
 
